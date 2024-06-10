@@ -65,8 +65,6 @@ class MAGNETICNP(modelBase):
                                 r1*np.cos(ang1),
                                 r2*np.sin(ang2)))
 
-
-
     def __generateInitialOrientations(self, N, mode, axis = [0,0,1]):
         if mode == "aligned":
             axis       = np.array(axis)

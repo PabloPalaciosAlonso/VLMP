@@ -22,7 +22,8 @@ class meanMagnetizationMeasurement(simulationStepBase):
     def __init__(self,name,**params):
         super().__init__(_type = self.__class__.__name__,
                          _name = name,
-                         availableParameters = {"outputFilePath"},
+                         availableParameters = {"outputFilePath",
+                                                "startStep"},
                          requiredParameters  = {"outputFilePath"},
                          availableSelections = {"selection"},
                          requiredSelections  = set(),
@@ -35,7 +36,8 @@ class meanMagnetizationMeasurement(simulationStepBase):
         parameters = {}
 
         parameters["outputFilePath"] = params["outputFilePath"]
-
+        parameters["startStep"]      = params.get("startStep", 0)
+        
         simulationStep = {
             name:{
               "type":["MagneticMeasure","MeasureMeanMagnetization"],
