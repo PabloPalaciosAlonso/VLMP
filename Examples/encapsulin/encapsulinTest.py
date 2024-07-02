@@ -8,7 +8,7 @@ z0    = 40
 z0Std = 0
 
 KInter = 60
-KIntra = 0
+KIntra = 60
 
 temperature = 1
 blobRadius  = 3

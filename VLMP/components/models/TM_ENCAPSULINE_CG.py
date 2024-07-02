@@ -179,10 +179,10 @@ class TM_ENCAPSULIN_CG(modelBase):
         positions = [entry[1] for entry in encapsulinInfo["coordinates"]["data"]]
 
         # Convert to a numpy array
-        positions_array = np.array(positions)
+        positions = np.array(positions)
         
         for center in encapCenters:
-            pos = center+positions_array
+            pos = center+positions
             ids = []
             for p in pos:
                 state["data"].append([idCounter,list(p)])
@@ -224,17 +224,27 @@ class TM_ENCAPSULIN_CG(modelBase):
 
         bonds = []
         for i in range(numberOfEncapsulins):
-            for bond in bondsInterPentamer:
-                bonds.append([encap2ids[i][bond[0]],
-                              encap2ids[i][bond[1]],
-                              KInterPentamer,
-                              r0_inter])
+            for j in range(59):
+                for l in range(j+1, 60):
+                    pj = positions[j]
+                    pl = positions[l]
+                    dist = np.linalg.norm(pj-pl)
+                    bonds.append([encap2ids[i][j],
+                                  encap2ids[i][l],
+                                  KInterPentamer,
+                                  dist])
+                
+            # for bond in bondsInterPentamer:
+            #     bonds.append([encap2ids[i][bond[0]],
+            #                   encap2ids[i][bond[1]],
+            #                   KInterPentamer,
+            #                   r0_inter])
 
-            for bond in bondsIntraPentamer:
-                bonds.append([encap2ids[i][bond[0]],
-                              encap2ids[i][bond[1]],
-                              KIntraPentamer,
-                              r0_intra])
+            # for bond in bondsIntraPentamer:
+            #     bonds.append([encap2ids[i][bond[0]],
+            #                   encap2ids[i][bond[1]],
+            #                   KIntraPentamer,
+            #                   r0_intra])
         
         for i,j,k,r0 in bonds:
             forceField["BondPair"]["data"].append([i,j,k,r0])
