@@ -223,28 +223,28 @@ class TM_ENCAPSULIN_CG(modelBase):
         forceField["BondPair"]["data"] = []
 
         bonds = []
-        for i in range(numberOfEncapsulins):
-            for j in range(59):
-                for l in range(j+1, 60):
-                    pj = positions[j]
-                    pl = positions[l]
-                    dist = np.linalg.norm(pj-pl)
-                    bonds.append([encap2ids[i][j],
-                                  encap2ids[i][l],
-                                  KInterPentamer,
-                                  dist])
+        # for i in range(numberOfEncapsulins):
+        #     for j in range(59):
+        #         for l in range(j+1, 60):
+        #             pj = positions[j]
+        #             pl = positions[l]
+        #             dist = np.linalg.norm(pj-pl)
+        #             bonds.append([encap2ids[i][j],
+        #                           encap2ids[i][l],
+        #                           KInterPentamer,
+        #                           dist])
                 
-            # for bond in bondsInterPentamer:
-            #     bonds.append([encap2ids[i][bond[0]],
-            #                   encap2ids[i][bond[1]],
-            #                   KInterPentamer,
-            #                   r0_inter])
-
-            # for bond in bondsIntraPentamer:
-            #     bonds.append([encap2ids[i][bond[0]],
-            #                   encap2ids[i][bond[1]],
-            #                   KIntraPentamer,
-            #                   r0_intra])
+        for bond in bondsInterPentamer:
+            bonds.append([encap2ids[i][bond[0]],
+                          encap2ids[i][bond[1]],
+                          KInterPentamer,
+                          r0_inter])
+            
+        for bond in bondsIntraPentamer:
+            bonds.append([encap2ids[i][bond[0]],
+                          encap2ids[i][bond[1]],
+                          KIntraPentamer,
+                          r0_intra])
         
         for i,j,k,r0 in bonds:
             forceField["BondPair"]["data"].append([i,j,k,r0])
