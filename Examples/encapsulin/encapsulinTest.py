@@ -7,18 +7,18 @@ Lz = 120
 z0    = 40
 z0Std = 0
 
-KInter = 30
-KIntra = 60
+KInter = 60
+KIntra = 0
 
 temperature = 1
 blobRadius  = 3
 blobMass    = 1
 
-dt                  = 0.0001
-numberOfEncapsulins = 10
+dt                  = 0.001
+numberOfEncapsulins = 1
 
-nsteps = 1000000
-nsave  = 1000
+nsteps = 2000000
+nsave  = 5000
 
 
 simulationPool = [{"system":[{"type":"simulationName","parameters":{"simulationName":"testEncapsulin"}},
@@ -27,7 +27,7 @@ simulationPool = [{"system":[{"type":"simulationName","parameters":{"simulationN
                    "types":[{"type":"basic"}],
                    "ensemble":[{"type":"NVT","parameters":{"box":[Lx,Ly,Lz],"temperature":temperature}}],
                    "integrators":[{"type":"BBK","parameters":{"timeStep":dt,
-                                                              "frictionConstant":10,
+                                                              "frictionConstant":1,
                                                               "integrationSteps":nsteps}}],
                    "models":[{"type":"TM_ENCAPSULIN_CG",
                               "parameters":{"numberOfEncapsulins":numberOfEncapsulins,
