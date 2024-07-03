@@ -17,7 +17,7 @@ blobMass    = 1
 dt                  = 0.001
 numberOfEncapsulins = 1
 
-nsteps = 2000000
+nsteps = 5000000
 nsave  = 5000
 
 
@@ -33,8 +33,10 @@ simulationPool = [{"system":[{"type":"simulationName","parameters":{"simulationN
                               "parameters":{"numberOfEncapsulins":numberOfEncapsulins,
                                             "blobRadius":blobRadius,
                                             "blobMass":blobMass,
-                                            "KInterPentamer":KInter,
-                                            "KIntraPentamer":KIntra,
+                                            "KInterPentamerFirst":KInter,
+                                            "KIntraPentamerFirst":KIntra,
+                                            "KInterPentamerSecond":KInter,
+                                            "KIntraPentamerSecond":KIntra,
                                             "heightMean":z0,
                                             "heightStd":z0Std,
                                             "heightReference":-Lz/2.0}}],

@@ -79,15 +79,17 @@ class TM_ENCAPSULIN_CG(modelBase):
                                                 "blobCharge",
                                                 "blobRadius",
                                                 "numberOfEncapsulins",
-                                                "KInterPentamer",
-                                                "KIntraPentamer",
+                                                "KInterPentamerFirst",
+                                                "KIntraPentamerFirst",
+                                                "KInterPentamerSecond",
+                                                "KIntraPentamerSecond",
                                                 "heightMean","heightStd",
                                                 "heightReference",
                                                 "maxTries",
                                                 "encapsulinDistribution",
                                                 "encapsulinCenters"},
-                         requiredParameters  = {"KInterPentamer",
-                                                "KIntraPentamer",
+                         requiredParameters  = {"KInterPentamerFirst",
+                                                "KIntraPentamerFirst",
                                                 "blobRadius",
                                                 "heightMean",
                                                 "numberOfEncapsulins"},
@@ -111,8 +113,11 @@ class TM_ENCAPSULIN_CG(modelBase):
         heightStd           = params.get("heightStd",0.0)        
         heightReference     = params.get("heightReference",0.0)
 
-        KInterPentamer = params["KInterPentamer"]
-        KIntraPentamer = params["KIntraPentamer"]
+        KInterPentamerFirst = params["KInterPentamerFirst"]
+        KIntraPentamerFirst = params["KIntraPentamerFirst"]
+        
+        KInterPentamerSecond = params.get("KInterPentamerSecond",0)
+        KIntraPentamerSecond = params.get("KIntraPentamerSecond",0)
 
         self.maxTries    = params.get("maxTries",100)
         
@@ -209,11 +214,17 @@ class TM_ENCAPSULIN_CG(modelBase):
                 structure["data"].append([j,blobName,i])
 
 
-        bondsInterPentamer = encapsulinInfo["bondsInterPentamer"]["data"]
-        r0_inter           = encapsulinInfo["bondsInterPentamer"]["parameters"]["r0"]
+        bondsInterPentamerFirst = encapsulinInfo["bondsFirstNeighborsInterPentamer"]["data"]
+        r0_interFirst           = encapsulinInfo["bondsFirstNeighborsInterPentamer"]["parameters"]["r0"]
 
-        bondsIntraPentamer = encapsulinInfo["bondsIntraPentamer"]["data"]
-        r0_intra           = encapsulinInfo["bondsIntraPentamer"]["parameters"]["r0"]
+        bondsIntraPentamerFirst = encapsulinInfo["bondsFirstNeighborsIntraPentamer"]["data"]
+        r0_intraFirst           = encapsulinInfo["bondsFirstNeighborsIntraPentamer"]["parameters"]["r0"]
+
+        bondsInterPentamerSecond = encapsulinInfo["bondsSecondNeighborsInterPentamer"]["data"]
+        r0_interSecond           = encapsulinInfo["bondsSecondNeighborsInterPentamer"]["parameters"]["r0"]
+
+        bondsIntraPentamerSecond = encapsulinInfo["bondsSecondNeighborsIntraPentamer"]["data"]
+        r0_intraSecond           = encapsulinInfo["bondsSecondNeighborsIntraPentamer"]["parameters"]["r0"]
         
         forceField = {}
         forceField["BondPair"] = {}
@@ -234,17 +245,31 @@ class TM_ENCAPSULIN_CG(modelBase):
         #                           KInterPentamer,
         #                           dist])
                 
-        for bond in bondsInterPentamer:
+        for bond in bondsInterPentamerFirst:
             bonds.append([encap2ids[i][bond[0]],
                           encap2ids[i][bond[1]],
-                          KInterPentamer,
-                          r0_inter])
+                          KInterPentamerFirst,
+                          r0_interFirst])
             
-        for bond in bondsIntraPentamer:
+        for bond in bondsIntraPentamerFirst:
             bonds.append([encap2ids[i][bond[0]],
                           encap2ids[i][bond[1]],
-                          KIntraPentamer,
-                          r0_intra])
+                          KIntraPentamerFirst,
+                          r0_intraFirst])
+
+        if KInterPentamerSecond > 0:
+            for bond in bondsInterPentamerSecond:
+                bonds.append([encap2ids[i][bond[0]],
+                              encap2ids[i][bond[1]],
+                              KInterPentamerSecond,
+                              r0_interSecond])
+
+        if KIntraPentamerSecond > 0:
+            for bond in bondsIntraPentamerSecond:
+                bonds.append([encap2ids[i][bond[0]],
+                              encap2ids[i][bond[1]],
+                              KIntraPentamerSecond,
+                              r0_intraSecond])
         
         for i,j,k,r0 in bonds:
             forceField["BondPair"]["data"].append([i,j,k,r0])
