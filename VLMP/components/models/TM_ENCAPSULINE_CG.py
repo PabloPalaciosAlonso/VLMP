@@ -245,31 +245,33 @@ class TM_ENCAPSULIN_CG(modelBase):
         #                           KInterPentamer,
         #                           dist])
                 
-        for bond in bondsInterPentamerFirst:
-            bonds.append([encap2ids[i][bond[0]],
-                          encap2ids[i][bond[1]],
-                          KInterPentamerFirst,
-                          r0_interFirst])
+
+        for i in range(numberOfEncapsulins):
+            for bond in bondsInterPentamerFirst:
+                bonds.append([encap2ids[i][bond[0]],
+                              encap2ids[i][bond[1]],
+                              KInterPentamerFirst,
+                              r0_interFirst])
             
-        for bond in bondsIntraPentamerFirst:
-            bonds.append([encap2ids[i][bond[0]],
-                          encap2ids[i][bond[1]],
-                          KIntraPentamerFirst,
-                          r0_intraFirst])
-
-        if KInterPentamerSecond > 0:
-            for bond in bondsInterPentamerSecond:
+            for bond in bondsIntraPentamerFirst:
                 bonds.append([encap2ids[i][bond[0]],
                               encap2ids[i][bond[1]],
-                              KInterPentamerSecond,
-                              r0_interSecond])
+                              KIntraPentamerFirst,
+                              r0_intraFirst])
 
-        if KIntraPentamerSecond > 0:
-            for bond in bondsIntraPentamerSecond:
-                bonds.append([encap2ids[i][bond[0]],
-                              encap2ids[i][bond[1]],
-                              KIntraPentamerSecond,
-                              r0_intraSecond])
+            if KInterPentamerSecond > 0:
+                for bond in bondsInterPentamerSecond:
+                    bonds.append([encap2ids[i][bond[0]],
+                                  encap2ids[i][bond[1]],
+                                  KInterPentamerSecond,
+                                  r0_interSecond])
+
+            if KIntraPentamerSecond > 0:
+                for bond in bondsIntraPentamerSecond:
+                    bonds.append([encap2ids[i][bond[0]],
+                                  encap2ids[i][bond[1]],
+                                  KIntraPentamerSecond,
+                                  r0_intraSecond])
         
         for i,j,k,r0 in bonds:
             forceField["BondPair"]["data"].append([i,j,k,r0])
